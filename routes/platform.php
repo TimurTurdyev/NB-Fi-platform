@@ -2,13 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Examples\ExampleCardsScreen;
-use App\Orchid\Screens\Examples\ExampleChartsScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
-use App\Orchid\Screens\Examples\ExampleFieldsScreen;
-use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
-use App\Orchid\Screens\Examples\ExampleScreen;
-use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
@@ -28,6 +21,9 @@ use Tabuna\Breadcrumbs\Trail;
 | contains the need "dashboard" middleware group. Now create something great!
 |
 */
+
+// Example...
+require_once 'examples.php';
 
 // Main
 Route::screen('/main', PlatformScreen::class)
@@ -96,23 +92,7 @@ Route::screen('roles', RoleListScreen::class)
             ->push(__('Roles'), route('platform.systems.roles'));
     });
 
-// Example...
-Route::screen('example', ExampleScreen::class)
-    ->name('platform.example')
-    ->breadcrumbs(function (Trail $trail) {
-        return $trail
-            ->parent('platform.index')
-            ->push('Example screen');
-    });
-
-Route::screen('example-fields', ExampleFieldsScreen::class)->name('platform.example.fields');
-Route::screen('example-layouts', ExampleLayoutsScreen::class)->name('platform.example.layouts');
-Route::screen('example-charts', ExampleChartsScreen::class)->name('platform.example.charts');
-Route::screen('example-editors', ExampleTextEditorsScreen::class)->name('platform.example.editors');
-Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.example.cards');
-Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
-
-//Route::screen('idea', 'Idea::class','platform.screens.idea');
+// Main Route
 
 // Platform > System > Companies > Edit
 Route::screen('companies/{company}/edit', \App\Orchid\Screens\Company\CompanyEditScreen::class)
@@ -139,4 +119,31 @@ Route::screen('companies', \App\Orchid\Screens\Company\CompanyListScreen::class)
         return $trail
             ->parent('platform.index')
             ->push(__('Companies'), route('platform.systems.companies'));
+    });
+
+// Platform > System > Buildings > Edit
+Route::screen('buildings/{building}/edit', \App\Orchid\Screens\Building\BuildingEditScreen::class)
+    ->name('platform.systems.buildings.edit')
+    ->breadcrumbs(function (Trail $trail, $building) {
+        return $trail
+            ->parent('platform.systems.buildings')
+            ->push(__('Building'), route('platform.systems.buildings.edit', $building));
+    });
+
+// Platform > System > Buildings > Create
+Route::screen('buildings/create', \App\Orchid\Screens\Building\BuildingEditScreen::class)
+    ->name('platform.systems.buildings.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.buildings')
+            ->push(__('Create'), route('platform.systems.buildings.create'));
+    });
+
+// Platform > System > Buildings > List
+Route::screen('buildings', \App\Orchid\Screens\Building\BuildingListScreen::class)
+    ->name('platform.systems.buildings')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Buildings'), route('platform.systems.buildings'));
     });
