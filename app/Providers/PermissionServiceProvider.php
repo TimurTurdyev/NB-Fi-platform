@@ -25,9 +25,10 @@ class PermissionServiceProvider extends ServiceProvider
      */
     public function boot(Dashboard $dashboard)
     {
-        $permissions = ItemPermission::group('Main')
-            ->addPermission('analytics', 'Access to data analytics')
-            ->addPermission('monitor', 'Access to the system monitor');
+        $permissions = ItemPermission::group('Companies')
+            ->addPermission('companies.list', 'Access to companies')
+            ->addPermission('companies.create', 'Access to the company create')
+            ->addPermission('companies.edit', 'Access to the company edit');
 
         $dashboard->registerPermissions($permissions);
     }
