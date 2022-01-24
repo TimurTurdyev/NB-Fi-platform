@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Filters\Filterable;
 
-class Company extends Model
+class Building extends Model
 {
     use HasFactory, Filterable;
 
@@ -16,6 +16,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
+        'company_id',
         'name',
     ];
 
@@ -45,6 +46,7 @@ class Company extends Model
      */
     protected $allowedFilters = [
         'id',
+        'company_id',
         'name',
     ];
 
@@ -55,14 +57,15 @@ class Company extends Model
      */
     protected $allowedSorts = [
         'id',
+        'company_id',
         'name',
         'email',
         'updated_at',
         'created_at',
     ];
 
-    public function buildings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(Building::class);
+        return $this->belongsTo(Company::class);
     }
 }

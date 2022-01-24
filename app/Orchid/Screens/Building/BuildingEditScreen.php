@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Orchid\Screens\Company;
+namespace App\Orchid\Screens\Building;
 
-use App\Models\Company;
-use App\Orchid\Layouts\Company\CompanyEditLayout;
+use App\Models\Building;
+use App\Orchid\Layouts\Building\BuildingEditLayout;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Orchid\Screen\Action;
@@ -12,14 +12,14 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
-class CompanyEditScreen extends Screen
+class BuildingEditScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Edit company';
+    public $name = 'Edit building';
 
     /**
      * Display header description.
@@ -39,27 +39,27 @@ class CompanyEditScreen extends Screen
 
 
     /**
-     * @var Company
+     * @var Building
      */
-    private $company;
+    private $building;
 
     /**
      * Query data.
      *
-     * @param Company $company
+     * @param Building $building
      *
      * @return array
      */
-    public function query(Company $company): array
+    public function query(Building $building): array
     {
-        $this->company = $company;
+        $this->building = $building;
 
-        if (!$company->exists) {
-            $this->name = 'Create company';
+        if (!$building->exists) {
+            $this->name = 'Create building';
         }
 
         return [
-            'company' => $company,
+            'building' => $building,
         ];
     }
 
@@ -73,9 +73,9 @@ class CompanyEditScreen extends Screen
         return [
             Button::make(__('Remove'))
                 ->icon('trash')
-                ->confirm(__('Once the company is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.'))
+                ->confirm(__('Once the building is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.'))
                 ->method('remove')
-                ->canSee($this->company->exists),
+                ->canSee($this->building->exists),
 
             Button::make(__('Save'))
                 ->icon('check')
@@ -89,47 +89,51 @@ class CompanyEditScreen extends Screen
     public function layout(): array
     {
         return [
-            Layout::columns([CompanyEditLayout::class]),
+            Layout::columns([BuildingEditLayout::class]),
         ];
     }
 
     /**
-     * @param Company $company
+     * @param Building $building
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function save(Company $company, Request $request)
+    public function save(Building $building, Request $request)
     {
         $request_validated = $request->validate([
-            'company.name' => [
+            'building.name' => [
                 'required',
-                Rule::unique(Company::class, 'name')->ignore($company),
+                Rule::unique(Building::class, 'name')->ignore($building),
             ],
-        ]);
+            'building.company_id' => [
+                'nullable',
+                Rule::exists('companies', 'id'),
+            ],
+        ])['building'];
 
-        $company
-            ->fill($request_validated['company'])
+        $building
+            ->fill(array_merge(['company_id' => null], $request_validated))
             ->save();
 
-        Toast::info(__('Company was saved.'));
+        Toast::info(__('Building was saved.'));
 
-        return redirect()->route('platform.systems.companies');
+        return redirect()->route('platform.systems.buildings');
     }
 
     /**
-     * @param Company $company
+     * @param Building $building
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      *
      */
-    public function remove(Company $company)
+    public function remove(Building $building)
     {
-        $company->delete();
+        $building->delete();
 
-        Toast::info(__('Company was removed'));
+        Toast::info(__('Building was removed'));
 
-        return redirect()->route('platform.systems.companies');
+        return redirect()->route('platform.systems.buildings');
     }
 }
