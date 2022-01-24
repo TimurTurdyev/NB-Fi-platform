@@ -113,3 +113,30 @@ Route::screen('example-cards', ExampleCardsScreen::class)->name('platform.exampl
 Route::screen('example-advanced', ExampleFieldsAdvancedScreen::class)->name('platform.example.advanced');
 
 //Route::screen('idea', 'Idea::class','platform.screens.idea');
+
+// Platform > System > Companies > Edit
+Route::screen('companies/{company}/edit', \App\Orchid\Screens\Company\CompanyEditScreen::class)
+    ->name('platform.systems.companies.edit')
+    ->breadcrumbs(function (Trail $trail, $company) {
+        return $trail
+            ->parent('platform.systems.companies')
+            ->push(__('Company'), route('platform.systems.companies.edit', $company));
+    });
+
+// Platform > System > Companies > Create
+Route::screen('companies/create', \App\Orchid\Screens\Company\CompanyEditScreen::class)
+    ->name('platform.systems.companies.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.companies')
+            ->push(__('Create'), route('platform.systems.companies.create'));
+    });
+
+// Platform > System > Companies > List
+Route::screen('companies', \App\Orchid\Screens\Company\CompanyListScreen::class)
+    ->name('platform.systems.companies')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Companies'), route('platform.systems.companies'));
+    });
