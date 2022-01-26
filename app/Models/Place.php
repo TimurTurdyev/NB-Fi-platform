@@ -100,4 +100,9 @@ class Place extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function modems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Modem::class);
+    }
 }

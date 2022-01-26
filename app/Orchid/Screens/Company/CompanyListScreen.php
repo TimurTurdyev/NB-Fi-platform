@@ -36,7 +36,8 @@ class CompanyListScreen extends Screen
     public function query(): array
     {
         return [
-            'companies' => Company::defaultSort('id', 'desc')
+            'companies' => Company::withCount(['places'])
+                ->defaultSort('id', 'desc')
                 ->paginate(),
         ];
     }
