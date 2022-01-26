@@ -38,6 +38,14 @@ class CompanyListLayout extends Table
                     return $company->name;
                 }),
 
+            TD::make('places_count', __('Places count'))
+                ->sort()
+                ->cantHide()
+                ->filter(Input::make())
+                ->render(function (Company $company) {
+                    return $company->places_count;
+                }),
+
             TD::make('updated_at', __('Last edit'))
                 ->sort()
                 ->render(function (Company $company) {

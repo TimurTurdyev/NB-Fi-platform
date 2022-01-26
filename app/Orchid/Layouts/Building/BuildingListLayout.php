@@ -38,9 +38,15 @@ class BuildingListLayout extends Table
                     return $building->name;
                 }),
 
-            TD::make('name', __('Time zone'))
+            TD::make('places_count', __('Places count'))
                 ->sort()
-                ->cantHide()
+                ->filter(Input::make())
+                ->render(function (Building $building) {
+                    return $building->places_count;
+                }),
+
+            TD::make('time_zone', __('Time zone'))
+                ->sort()
                 ->filter(Input::make())
                 ->render(function (Building $building) {
                     return $building->time_zone;
