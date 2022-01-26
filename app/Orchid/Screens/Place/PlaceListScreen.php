@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Orchid\Screens\Building;
+namespace App\Orchid\Screens\Place;
 
-use App\Models\Building;
-use App\Orchid\Layouts\Building\BuildingListLayout;
+use App\Models\Place;
+use App\Orchid\Layouts\Place\PlaceFiltersLayout;
+use App\Orchid\Layouts\Place\PlaceListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 
-class BuildingListScreen extends Screen
+class PlaceListScreen extends Screen
 {
     /**
      * Display header name.
      *
      * @var string
      */
-    public $name = 'Buildings';
+    public $name = 'Places';
 
     /**
      * Display header description.
      *
      * @var string
      */
-    public $description = 'All registered buildings';
+    public $description = 'All registered places';
 
     /**
      * @var string
@@ -36,7 +37,10 @@ class BuildingListScreen extends Screen
     public function query(): array
     {
         return [
-            'buildings' => Building::withCount(['places'])->defaultSort('id', 'desc')
+            'places' => Place::with('building', 'company', 'client')
+                ->filters()
+                ->filtersApplySelection(PlaceFiltersLayout::class)
+                ->defaultSort('id', 'desc')
                 ->paginate(),
         ];
     }
@@ -51,7 +55,7 @@ class BuildingListScreen extends Screen
         return [
             Link::make(__('Add'))
                 ->icon('plus')
-                ->route('platform.systems.buildings.create'),
+                ->route('platform.systems.places.create'),
         ];
     }
 
@@ -63,7 +67,8 @@ class BuildingListScreen extends Screen
     public function layout(): array
     {
         return [
-            BuildingListLayout::class
+            PlaceFiltersLayout::class,
+            PlaceListLayout::class
         ];
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Orchid\Layouts\Building;
 
-use App\Models\Company;
+use DateTimeZone;
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
-use Orchid\Screen\Fields\Relation;
+use Orchid\Screen\Fields\TimeZone;
 use Orchid\Screen\Layouts\Rows;
 
 class BuildingEditLayout extends Rows
@@ -25,9 +25,9 @@ class BuildingEditLayout extends Rows
                 ->title(__('Name'))
                 ->placeholder(__('Name')),
 
-            Relation::make('building.company_id')
-                ->fromModel(Company::class, 'name')
-                ->title(__('Choice company'))
+            TimeZone::make('building.time_zone')
+                ->listIdentifiers(DateTimeZone::ALL)
+                ->title(__('Time Zone')),
 
         ];
     }

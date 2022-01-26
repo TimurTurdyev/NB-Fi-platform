@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Company extends Model
+class Client extends Model
 {
     use HasFactory, AsSource, Filterable;
 
@@ -17,7 +17,9 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'firstname',
+        'lastname',
+        'patronymic',
     ];
 
     /**
@@ -46,7 +48,9 @@ class Company extends Model
      */
     protected $allowedFilters = [
         'id',
-        'name',
+        'firstname',
+        'lastname',
+        'patronymic',
     ];
 
     /**
@@ -56,11 +60,23 @@ class Company extends Model
      */
     protected $allowedSorts = [
         'id',
-        'name',
-        'email',
+        'firstname',
+        'lastname',
+        'patronymic',
         'updated_at',
         'created_at',
     ];
+
+    public function getFullAttribute(): string
+    {
+        $full =  array_filter([
+            $this->attributes['firstname'],
+            $this->attributes['lastname'],
+            $this->attributes['patronymic'],
+        ]);
+
+        return join(' ', $full);
+    }
 
     public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
