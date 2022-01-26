@@ -147,3 +147,30 @@ Route::screen('buildings', \App\Orchid\Screens\Building\BuildingListScreen::clas
             ->parent('platform.index')
             ->push(__('Buildings'), route('platform.systems.buildings'));
     });
+
+// Platform > System > Places > Edit
+Route::screen('places/{place}/edit', \App\Orchid\Screens\Place\PlaceEditScreen::class)
+    ->name('platform.systems.places.edit')
+    ->breadcrumbs(function (Trail $trail, $place) {
+        return $trail
+            ->parent('platform.systems.places')
+            ->push(__('Place'), route('platform.systems.places.edit', $place));
+    });
+
+// Platform > System > Places > Create
+Route::screen('places/create', \App\Orchid\Screens\Place\PlaceEditScreen::class)
+    ->name('platform.systems.places.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.places')
+            ->push(__('Create'), route('platform.systems.places.create'));
+    });
+
+// Platform > System > Places > List
+Route::screen('places', \App\Orchid\Screens\Place\PlaceListScreen::class)
+    ->name('platform.systems.places')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Places'), route('platform.systems.places'));
+    });

@@ -7,17 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Company extends Model
+class Place extends Model
 {
     use HasFactory, AsSource, Filterable;
 
+    public $guarded = ['id'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',
+        'company_id',
+        'building_id',
+        'client_id',
+        'address',
+        'street',
+        'house',
+        'block',
+        'flat',
+        'postcode',
     ];
 
     /**
@@ -46,7 +55,15 @@ class Company extends Model
      */
     protected $allowedFilters = [
         'id',
-        'name',
+        'company_id',
+        'building_id',
+        'client_id',
+        'address',
+        'street',
+        'house',
+        'block',
+        'flat',
+        'postcode',
     ];
 
     /**
@@ -56,14 +73,31 @@ class Company extends Model
      */
     protected $allowedSorts = [
         'id',
-        'name',
-        'email',
+        'company_id',
+        'building_id',
+        'client_id',
+        'address',
+        'street',
+        'house',
+        'block',
+        'flat',
+        'postcode',
         'updated_at',
         'created_at',
     ];
 
-    public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(Place::class);
+        return $this->belongsTo(Company::class);
+    }
+
+    public function building(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Building::class);
+    }
+
+    public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Client::class);
     }
 }

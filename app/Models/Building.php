@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Building extends Model
 {
-    use HasFactory, Filterable;
+    use HasFactory, AsSource, Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -16,8 +17,8 @@ class Building extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
         'name',
+        'time_zone',
     ];
 
     /**
@@ -46,8 +47,8 @@ class Building extends Model
      */
     protected $allowedFilters = [
         'id',
-        'company_id',
         'name',
+        'time_zone',
     ];
 
     /**
@@ -57,15 +58,14 @@ class Building extends Model
      */
     protected $allowedSorts = [
         'id',
-        'company_id',
         'name',
-        'email',
+        'time_zone',
         'updated_at',
         'created_at',
     ];
 
-    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasMany(Place::class);
     }
 }

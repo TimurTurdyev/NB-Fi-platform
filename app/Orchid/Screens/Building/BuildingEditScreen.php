@@ -106,14 +106,14 @@ class BuildingEditScreen extends Screen
                 'required',
                 Rule::unique(Building::class, 'name')->ignore($building),
             ],
-            'building.company_id' => [
-                'nullable',
-                Rule::exists('companies', 'id'),
-            ],
+            'building.time_zone' => [
+                'required',
+                'timezone',
+            ]
         ])['building'];
 
         $building
-            ->fill(array_merge(['company_id' => null], $request_validated))
+            ->fill($request_validated)
             ->save();
 
         Toast::info(__('Building was saved.'));
