@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
-class Modem extends Model
+class Channel extends Model
 {
     use HasFactory, AsSource, Filterable;
 
@@ -19,8 +19,8 @@ class Modem extends Model
      */
     protected $fillable = [
         'modem_id',
-        'protocol',
-        'sort_order',
+        'obis',
+        'last_value',
     ];
 
     /**
@@ -49,8 +49,8 @@ class Modem extends Model
      */
     protected $allowedFilters = [
         'modem_id',
-        'protocol',
-        'sort_order',
+        'obis',
+        'last_value',
     ];
 
     /**
@@ -60,19 +60,14 @@ class Modem extends Model
      */
     protected $allowedSorts = [
         'modem_id',
-        'protocol',
-        'sort_order',
+        'obis',
+        'last_value',
         'updated_at',
         'created_at',
     ];
 
-    public function place(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function modem(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Place::class);
-    }
-
-    public function channels(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Channel::class);
+        return $this->belongsTo(Modem::class);
     }
 }
