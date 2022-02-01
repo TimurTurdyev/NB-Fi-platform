@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModemsTable extends Migration
+class CreateChannelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateModemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('modems', function (Blueprint $table) {
+        Schema::create('channels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('place_id')->nullable()->references('id')->on('places')->onDelete('SET NULL');
-            $table->char('hex_id', 8)->unique();
-            $table->string('protocol', 64)->default('');
-            $table->tinyInteger('sort_order')->default(0);
+            $table->foreignId('modem_id')->references('id')->on('modems')->onDelete('CASCADE');
+            $table->string('obis', 64)->index();
+            $table->float('last_value', 8, 4);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateModemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modems');
+        Schema::dropIfExists('channels');
     }
 }

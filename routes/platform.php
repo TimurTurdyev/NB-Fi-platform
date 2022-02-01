@@ -148,6 +148,33 @@ Route::screen('buildings', \App\Orchid\Screens\Building\BuildingListScreen::clas
             ->push(__('Buildings'), route('platform.systems.buildings'));
     });
 
+// Platform > System > Clients > Edit
+Route::screen('clients/{client}/edit', \App\Orchid\Screens\Client\ClientEditScreen::class)
+    ->name('platform.systems.clients.edit')
+    ->breadcrumbs(function (Trail $trail, $client) {
+        return $trail
+            ->parent('platform.systems.clients')
+            ->push(__('Client'), route('platform.systems.clients.edit', $client));
+    });
+
+// Platform > System > Clients > Create
+Route::screen('clients/create', \App\Orchid\Screens\Client\ClientEditScreen::class)
+    ->name('platform.systems.clients.create')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.systems.clients')
+            ->push(__('Create'), route('platform.systems.clients.create'));
+    });
+
+// Platform > System > Clients > List
+Route::screen('clients', \App\Orchid\Screens\Client\ClientListScreen::class)
+    ->name('platform.systems.clients')
+    ->breadcrumbs(function (Trail $trail) {
+        return $trail
+            ->parent('platform.index')
+            ->push(__('Clients'), route('platform.systems.clients'));
+    });
+
 // Platform > System > Places > Edit
 Route::screen('places/{place}/edit', \App\Orchid\Screens\Place\PlaceEditScreen::class)
     ->name('platform.systems.places.edit')

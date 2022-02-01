@@ -37,6 +37,10 @@ class PlatformProvider extends OrchidServiceProvider
                 ->icon('building')
                 ->route('platform.systems.buildings'),
 
+            Menu::make('Clients')
+                ->icon('building')
+                ->route('platform.systems.clients'),
+
             Menu::make('Places')
                 ->icon('pin')
                 ->route('platform.systems.places'),
